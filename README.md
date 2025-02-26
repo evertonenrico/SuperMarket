@@ -22,4 +22,4 @@ Lembrando que neste momento,os dados não serão atualizados.
 
 **Metadados**
 
-As informações de metadados encontram-se neste link.
+As informações de metadados encontram-se neste ![LINK](/Metadados.txt)
