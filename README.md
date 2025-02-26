@@ -3,9 +3,9 @@
 
 ## Ferramentas Utilizadas
 
--Google Sheets;
--Google BigQuery;
--Power BI
+- Google Sheets;
+- Google BigQuery;
+- Power BI
 
 ## Contexto
 O crescimento de supermercados nas cidades mais populosas está aumentando e a competição de mercado também é acirrada. 
