@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Super Market"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "4f5d8fd1-a336-4755-ad59-de954b6bb627"
+  }
+}
