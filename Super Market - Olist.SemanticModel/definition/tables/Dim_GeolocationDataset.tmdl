@@ -13,19 +13,19 @@ table Dim_GeolocationDataset
 		dataType: int64
 		formatString: 0
 		lineageTag: df3dc27b-5b9f-4e54-abdb-2133f5750e48
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: geolocation_lat
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column geolocation_lng
 		dataType: int64
 		formatString: 0
 		lineageTag: 46bcdb09-225a-47e1-8364-01b0e61b1f84
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: geolocation_lng
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column geolocation_city
 		dataType: string

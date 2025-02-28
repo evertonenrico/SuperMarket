@@ -5,13 +5,13 @@
       "ordinal": 0,
       "scrollPosition": {
         "x": 17.142857142857142,
-        "y": 360
+        "y": 281.42857142857144
       },
       "nodes": [
         {
           "location": {
             "x": 782.487641200471,
-            "y": 813.69469141523223
+            "y": 827.69469141523223
           },
           "nodeIndex": "Dim_CustomersDataset",
           "nodeLineageTag": "6441a8fd-acb8-4122-98fb-fff2d9f08485",
@@ -24,7 +24,7 @@
         {
           "location": {
             "x": 1399.7945624287192,
-            "y": 799.41877427904478
+            "y": 813.41877427904478
           },
           "nodeIndex": "Dim_GeolocationDataset",
           "nodeLineageTag": "631f4d5e-af30-4cd6-8f57-fce71c232020",
@@ -37,7 +37,7 @@
         {
           "location": {
             "x": 1137.0429385543994,
-            "y": 415.15711721218116
+            "y": 429.15711721218116
           },
           "nodeIndex": "Dim_OrderItemsDataset",
           "nodeLineageTag": "e0a226a9-d1cf-409f-af8d-9976a9c0e774",
@@ -51,7 +51,7 @@
         {
           "location": {
             "x": 785.6121372610703,
-            "y": 28
+            "y": 42
           },
           "nodeIndex": "Dim_OrderPaymentsDataset",
           "nodeLineageTag": "440641ef-ed25-45f5-8758-7841dfe1d972",
@@ -65,7 +65,7 @@
         {
           "location": {
             "x": 382.93741957157619,
-            "y": 366.37229702346781
+            "y": 380.37229702346781
           },
           "nodeIndex": "Dim_OrderReviewsDataset",
           "nodeLineageTag": "f7c1fb61-154f-4549-bc66-a93732e75803",
@@ -78,7 +78,7 @@
         {
           "location": {
             "x": 1134.3086396894755,
-            "y": 160
+            "y": 174
           },
           "nodeIndex": "Dim_ProductsDataset",
           "nodeLineageTag": "958a0e16-dbcc-4902-a639-fc9b1349ef52",
@@ -91,7 +91,7 @@
         {
           "location": {
             "x": 1458.8571428571429,
-            "y": 408.19805437819025
+            "y": 422.19805437819025
           },
           "nodeIndex": "Dim_SellersDataset",
           "nodeLineageTag": "b52a5809-29b7-4ac3-8575-264fff120f56",
@@ -104,7 +104,7 @@
         {
           "location": {
             "x": 787.58239826431691,
-            "y": 284.62233415943626
+            "y": 298.62233415943626
           },
           "nodeIndex": "Fact_OrdersDataset",
           "nodeLineageTag": "57e19c58-bed0-4580-92fa-8cb62388618a",
