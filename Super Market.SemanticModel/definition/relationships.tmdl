@@ -1,0 +1,4 @@
+relationship c36b9d8c-7879-11df-868b-07f079895d52
+	fromColumn: FACT_SALES.date
+	toColumn: DIM_CALENDARIO.Data
+

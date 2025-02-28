@@ -1,0 +1,32 @@
+createOrReplace
+
+	table Medidas
+		lineageTag: a4a5ccd4-8c5f-4d6a-9efa-3288ad91739b
+
+		measure Total =
+				
+				SUMX(
+				    FACT_SALES,
+				    (FACT_SALES[unitprice]*FACT_SALES[quantity])* 0.05
+				)
+			lineageTag: 58e9a5dd-d55f-4969-aacd-9dabac25520d
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		column Column
+			formatString: 0
+			lineageTag: 9bd1fcb7-6c35-4b2c-90ff-36c3d55e6af0
+			summarizeBy: sum
+			isNameInferred
+			sourceColumn: [Column]
+
+			annotation SummarizationSetBy = Automatic
+
+		partition Medidas = calculated
+			mode: import
+			source = Row("Column", BLANK())
+
+		annotation PBI_Id = 9ea9aca491984b3ea1a6a726e6773810
+
+		annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":""}
+
