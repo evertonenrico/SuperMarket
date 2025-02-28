@@ -4,7 +4,7 @@
 ## Ferramentas Utilizadas
 
 - Google Sheets;
-- Google BigQuery;
+- Data.World;
 - Power BI
 
 ## Contexto
@@ -17,7 +17,7 @@ Métodos de análise preditiva de dados são fáceis de aplicar com este dataset
 O primeiro passo será analisar o arquivo que está no formato .CSV (separado por vírgulas) que nos foi enviado.
 Abriremos o arquivo no *Google Sheets* para padronizar o nome das colunas, removendo espaços, caracteres especiais e erros.
 
-A planilha será importada para o **Google BigQuery** para que possamos consultar os dados hospedados na nuvem.
+A planilha será importada para o **Data.World** para que possamos consultar os dados hospedados na nuvem.
 Lembrando que neste momento,os dados não serão atualizados.
 
 **Metadados**
