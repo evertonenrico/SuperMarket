@@ -1,0 +1,26 @@
+relationship AutoDetected_d8457280-7740-4278-ad50-1effaf498b7e
+	fromColumn: Dim_OrderItemsDataset.order_id
+	toColumn: Fact_OrdersDataset.order_id
+
+relationship AutoDetected_e9faf3eb-1121-44ba-81ea-594cc5e6210c
+	fromColumn: Dim_OrderReviewsDataset.order_id
+	toColumn: Fact_OrdersDataset.order_id
+
+relationship AutoDetected_6fa84eae-69c7-4621-8abf-96bc7cc99dd3
+	fromColumn: Dim_OrderPaymentsDataset.order_id
+	toColumn: Fact_OrdersDataset.order_id
+
+relationship AutoDetected_32022df1-3be4-48f3-80b1-752edbfa2723
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: Dim_CustomersDataset.customer_id
+	toColumn: Fact_OrdersDataset.customer_id
+
+relationship AutoDetected_2dbf6e1e-a321-4418-8c91-727d1a00cabc
+	fromColumn: Dim_OrderItemsDataset.product_id
+	toColumn: Dim_ProductsDataset.product_id
+
+relationship AutoDetected_60e02f11-662d-44eb-99e1-3d9caa4b213b
+	fromColumn: Dim_OrderItemsDataset.seller_id
+	toColumn: Dim_SellersDataset.seller_id
+

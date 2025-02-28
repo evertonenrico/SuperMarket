@@ -1,0 +1,86 @@
+table Fact_OrdersDataset
+	lineageTag: 57e19c58-bed0-4580-92fa-8cb62388618a
+
+	column order_id
+		dataType: string
+		lineageTag: 68dd2ebc-46bb-4453-a874-a31a1a0a1dff
+		summarizeBy: none
+		sourceColumn: order_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_id
+		dataType: string
+		lineageTag: 8962f9be-ddee-4336-b375-880a75000b4c
+		summarizeBy: none
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_status
+		dataType: string
+		lineageTag: c0f64a78-906c-44aa-8cec-6fe95083f060
+		summarizeBy: none
+		sourceColumn: order_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_purchase_timestamp
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 20d37011-31fd-4448-bbe1-72e3fd4f2978
+		summarizeBy: none
+		sourceColumn: order_purchase_timestamp
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_approved_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: c1172612-4213-4902-b3b2-1d9984bbbf3d
+		summarizeBy: none
+		sourceColumn: order_approved_at
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_delivered_carrier_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 8379c81e-d6ef-4dff-8be1-7ae536dceb98
+		summarizeBy: none
+		sourceColumn: order_delivered_carrier_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_delivered_customer_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 5bda2dda-4494-41e8-adee-8c6611fabf0f
+		summarizeBy: none
+		sourceColumn: order_delivered_customer_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_estimated_delivery_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 905cf8fd-2b2f-459f-88fd-ad76ffd5a79d
+		summarizeBy: none
+		sourceColumn: order_estimated_delivery_date
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Fact_OrdersDataset = m
+		mode: import
+		source =
+				let
+				    Fonte = Csv.Document(File.Contents("G:\Meu Drive\Power BI Microsoft\ESTUDOS - PORTFOLIO\Super Market\SuperMarket\dataset\olist_orders_dataset.csv"),[Delimiter=",", Columns=8, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Fonte, [PromoteAllScalars=true]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"order_id", type text}, {"customer_id", type text}, {"order_status", type text}, {"order_purchase_timestamp", type datetime}, {"order_approved_at", type datetime}, {"order_delivered_carrier_date", type datetime}, {"order_delivered_customer_date", type datetime}, {"order_estimated_delivery_date", type datetime}})
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

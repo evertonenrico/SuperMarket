@@ -1,0 +1,61 @@
+table Dim_GeolocationDataset
+	lineageTag: 631f4d5e-af30-4cd6-8f57-fce71c232020
+
+	column geolocation_zip_code_prefix
+		dataType: string
+		lineageTag: 027e71af-28a2-4800-b3e5-590a6fb08335
+		summarizeBy: none
+		sourceColumn: geolocation_zip_code_prefix
+
+		annotation SummarizationSetBy = Automatic
+
+	column geolocation_lat
+		dataType: int64
+		formatString: 0
+		lineageTag: df3dc27b-5b9f-4e54-abdb-2133f5750e48
+		summarizeBy: sum
+		sourceColumn: geolocation_lat
+
+		annotation SummarizationSetBy = Automatic
+
+	column geolocation_lng
+		dataType: int64
+		formatString: 0
+		lineageTag: 46bcdb09-225a-47e1-8364-01b0e61b1f84
+		summarizeBy: sum
+		sourceColumn: geolocation_lng
+
+		annotation SummarizationSetBy = Automatic
+
+	column geolocation_city
+		dataType: string
+		lineageTag: 26d08e42-7ea8-49c8-950e-a0b071815adf
+		summarizeBy: none
+		sourceColumn: geolocation_city
+
+		annotation SummarizationSetBy = Automatic
+
+	column geolocation_state
+		dataType: string
+		lineageTag: b46b56f9-9dd5-465a-bcf5-f6323e6f71cf
+		summarizeBy: none
+		sourceColumn: geolocation_state
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_GeolocationDataset = m
+		mode: import
+		source =
+				let
+				    Fonte = Csv.Document(File.Contents("G:\Meu Drive\Power BI Microsoft\ESTUDOS - PORTFOLIO\Super Market\SuperMarket\dataset\olist_geolocation_dataset.csv"),[Delimiter=",", Columns=5, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Fonte, [PromoteAllScalars=true]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"geolocation_zip_code_prefix", Int64.Type}, {"geolocation_lat", Int64.Type}, {"geolocation_lng", Int64.Type}, {"geolocation_city", type text}, {"geolocation_state", type text}}),
+				    #"Colocar Cada Palavra Em Maiúscula" = Table.TransformColumns(#"Tipo Alterado",{{"geolocation_city", Text.Proper, type text}}),
+				    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Colocar Cada Palavra Em Maiúscula",{{"geolocation_zip_code_prefix", type text}})
+				in
+				    #"Tipo Alterado1"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

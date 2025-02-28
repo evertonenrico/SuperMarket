@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Super Market - Olist"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "05f86df6-ca79-4caa-adec-35a645d2ef46"
+  }
+}

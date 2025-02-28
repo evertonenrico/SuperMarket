@@ -1,0 +1,62 @@
+table Dim_OrderPaymentsDataset
+	lineageTag: 440641ef-ed25-45f5-8758-7841dfe1d972
+
+	column order_id
+		dataType: string
+		lineageTag: 018a19a7-4f1b-4490-a9ae-3b264340b841
+		summarizeBy: none
+		sourceColumn: order_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column payment_sequential
+		dataType: string
+		lineageTag: 0dcdcdcd-2080-465d-9681-97a07a22a05e
+		summarizeBy: none
+		sourceColumn: payment_sequential
+
+		annotation SummarizationSetBy = Automatic
+
+	column payment_type
+		dataType: string
+		lineageTag: 57a7aa40-70b2-4b1d-8ddf-4c988a6d1405
+		summarizeBy: none
+		sourceColumn: payment_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column payment_installments
+		dataType: string
+		lineageTag: 78350186-00cc-4d19-9077-b4a2ebe5e4ff
+		summarizeBy: none
+		sourceColumn: payment_installments
+
+		annotation SummarizationSetBy = Automatic
+
+	column payment_value
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: ea513ffc-e6b9-4e8c-ab66-f77da8cf7f45
+		summarizeBy: sum
+		sourceColumn: payment_value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	partition Dim_OrderPaymentsDataset = m
+		mode: import
+		source =
+				let
+				    Fonte = Csv.Document(File.Contents("G:\Meu Drive\Power BI Microsoft\ESTUDOS - PORTFOLIO\Super Market\SuperMarket\dataset\olist_order_payments_dataset.csv"),[Delimiter=",", Columns=5, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Fonte, [PromoteAllScalars=true]),
+				    #"Valor Substituído" = Table.ReplaceValue(#"Cabeçalhos Promovidos",".",",",Replacer.ReplaceText,{"payment_value"}),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Valor Substituído",{{"payment_value", Currency.Type}}),
+				    #"Tipo Alterado com Localidade" = Table.TransformColumnTypes(#"Tipo Alterado", {{"payment_value", Currency.Type}}, "pt-BR")
+				in
+				    #"Tipo Alterado com Localidade"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

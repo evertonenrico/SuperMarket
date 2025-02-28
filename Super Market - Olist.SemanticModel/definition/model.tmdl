@@ -1,0 +1,27 @@
+model Model
+	culture: pt-BR
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: pt-BR
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBIDesktopVersion = 2.140.1205.0 (25.02)+2ab3defe107764e1cf486b42122d9362df7f34ea
+
+annotation PBI_QueryOrder = ["Fact_OrdersDataset","Dim_CustomersDataset","Dim_OrderItemsDataset","Dim_OrderReviewsDataset","Dim_OrderPaymentsDataset","Dim_ProductsDataset","Dim_SellersDataset","Dim_GeolocationDataset"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table Fact_OrdersDataset
+ref table Dim_CustomersDataset
+ref table Dim_OrderItemsDataset
+ref table Dim_OrderReviewsDataset
+ref table Dim_OrderPaymentsDataset
+ref table Dim_ProductsDataset
+ref table Dim_SellersDataset
+ref table Dim_GeolocationDataset
+
+ref cultureInfo pt-BR
+
