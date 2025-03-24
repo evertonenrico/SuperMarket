@@ -1,4 +1,4 @@
-# Olist (2016 - 2018)
+# Olist Store Dataset (2016 - 2018)
  Conjunto de Dados Público de E-Commerce Brasileiro da Olist
 
 ## Introdução 📓
