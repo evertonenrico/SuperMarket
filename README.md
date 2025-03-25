@@ -1,4 +1,4 @@
-# Olist (2016 - 2018)
+# Olist Store Dataset (2016 - 2018)
  Conjunto de Dados Público de E-Commerce Brasileiro da Olist
 
 ## Introdução 📓
@@ -17,9 +17,20 @@ Após um cliente comprar um produto na Olist Store, o vendedor é notificado par
 O primeiro passo será analisar o arquivo que está no formato .CSV (separado por vírgulas) que nos foi enviado.
 Abriremos o arquivo no *Google Sheets* para padronizar o nome das colunas, removendo espaços, caracteres especiais e erros.
 
-A planilha será importada para o **Data.World** para que possamos consultar os dados hospedados na nuvem.
-Lembrando que neste momento,os dados não serão atualizados.
+
+Todos os dados encontram-se em: https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce/data
 
 **Metadados**
 
 As informações de metadados encontram-se neste [LINK](/Metadados.txt)
+
+## Data Schema
+
+Abaixo o modelo Schema dos dados levantados:
+![Schema](images/data_schema.png)
+
+## Relacionamento entre tabelas no Power BI 
+![Schema](images/relacionamento.png)
+
+
+
