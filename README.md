@@ -17,8 +17,16 @@ Após um cliente comprar um produto na Olist Store, o vendedor é notificado par
 O primeiro passo será analisar o arquivo que está no formato .CSV (separado por vírgulas) que nos foi enviado.
 Abriremos o arquivo no *Google Sheets* para padronizar o nome das colunas, removendo espaços, caracteres especiais e erros.
 
+
 Todos os dados encontram-se em: https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce/data
 
 **Metadados**
 
 As informações de metadados encontram-se neste [LINK](/Metadados.txt)
+
+## Schema
+
+Abaixo o modelo Schema dos dados levantados:
+![ETL](images/data_schema.png)
+
+
