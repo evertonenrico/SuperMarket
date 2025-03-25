@@ -44,6 +44,19 @@ table Dim_OrderPaymentsDataset
 
 		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
 
+	column Data =
+			
+			RELATED(Dim_Calendar[Data])
+		formatString: Short Date
+		lineageTag: 93ada57c-2cc1-4b59-b79d-a1f039b224a3
+		summarizeBy: none
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
 	partition Dim_OrderPaymentsDataset = m
 		mode: import
 		source =

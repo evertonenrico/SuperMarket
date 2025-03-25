@@ -70,15 +70,42 @@ table Fact_OrdersDataset
 
 		annotation SummarizationSetBy = Automatic
 
+	column TotalOrderTimeDelivered
+		dataType: int64
+		formatString: #,0
+		lineageTag: f6fdf1d0-f322-4546-baac-7d79e8036153
+		summarizeBy: none
+		sourceColumn: TotalOrderTimeDelivered
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = User
+
+	column Data
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: f7382be2-2fda-4a97-8f80-df2594bd9a3d
+		summarizeBy: none
+		sourceColumn: Data
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
 	partition Fact_OrdersDataset = m
 		mode: import
 		source =
 				let
 				    Fonte = Csv.Document(File.Contents("G:\Meu Drive\Power BI Microsoft\ESTUDOS - PORTFOLIO\Super Market\SuperMarket\dataset\olist_orders_dataset.csv"),[Delimiter=",", Columns=8, Encoding=65001, QuoteStyle=QuoteStyle.None]),
 				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Fonte, [PromoteAllScalars=true]),
-				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"order_id", type text}, {"customer_id", type text}, {"order_status", type text}, {"order_purchase_timestamp", type datetime}, {"order_approved_at", type datetime}, {"order_delivered_carrier_date", type datetime}, {"order_delivered_customer_date", type datetime}, {"order_estimated_delivery_date", type datetime}})
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"order_id", type text}, {"customer_id", type text}, {"order_status", type text}, {"order_purchase_timestamp", type datetime}, {"order_approved_at", type datetime}, {"order_delivered_carrier_date", type datetime}, {"order_delivered_customer_date", type datetime}, {"order_estimated_delivery_date", type datetime}}),
+				    #"Personalização Adicionada" = Table.AddColumn(#"Tipo Alterado", "TotalTime", each [order_delivered_customer_date] - [order_purchase_timestamp]),
+				    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Personalização Adicionada",{{"TotalTime", type duration}}),
+				    #"Total de Segundos Calculados" = Table.TransformColumns(#"Tipo Alterado1",{{"TotalTime", Duration.TotalSeconds, type number}}),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Total de Segundos Calculados",{{"TotalTime", "TotalOrderTimeDelivered"}}),
+				    #"Data Inserida" = Table.AddColumn(#"Colunas Renomeadas", "Data", each DateTime.Date([order_purchase_timestamp]), type date)
 				in
-				    #"Tipo Alterado"
+				    #"Data Inserida"
 
 	annotation PBI_NavigationStepName = Navegação
 

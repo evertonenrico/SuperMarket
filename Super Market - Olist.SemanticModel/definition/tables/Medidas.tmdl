@@ -1,0 +1,222 @@
+table Medidas
+	lineageTag: dae8ffab-1889-4bfe-af98-a72c13444821
+
+	measure ContagemIDs = ```
+			
+			VAR vCustomersUnique = 
+			    CALCULATE(
+			        COUNTROWS(Dim_CustomersDataset), 
+			        ALLEXCEPT(Dim_CustomersDataset, Dim_CustomersDataset[customer_unique_id])
+			        
+			    )
+			RETURN
+			vCustomersUnique
+			```
+		formatString: 0
+		lineageTag: 7ccdf03c-72e9-4a6c-ad37-8f29f5521d6b
+
+	measure '01 - TotalOrders' = COUNTROWS(Fact_OrdersDataset)
+		formatString: #,0
+		lineageTag: 1a467bc5-c22a-4184-8275-80a06417a9b5
+
+	measure '02 - Total Customers' = DISTINCTCOUNT(Dim_CustomersDataset[customer_unique_id])
+		formatString: #,0
+		lineageTag: 5a329cfb-60ab-440c-b96f-a487f3febebf
+
+	measure '01 - Tempo Total DD:HH:MM(TotalOrderTimeDelivered)' = ```
+			
+			VAR vSegundos = SUM(Fact_OrdersDataset[TotalOrderTimeDelivered])
+			
+			VAR vDias = INT(vSegundos / (24 * 60 * 60))
+			VAR vHoras = INT(MOD(vSegundos, 24 * 60 * 60) / (60 * 60))
+			VAR vMinutos = INT(MOD(MOD(vSegundos, 24 * 60 * 60), 60 * 60) / 60)
+			
+			RETURN 
+			    FORMAT(vDias, "0") & " dias, " &
+			    FORMAT(vHoras, "0") & " horas, " &
+			    FORMAT(vMinutos, "0") & " minutos"
+			```
+		displayFolder: TotalOrderTimeDelivered
+		lineageTag: 1931d039-9a44-4c7f-91dd-cfc039260fd9
+
+	measure '02 - Tempo Total Médio HH:MM (TotalOrderTimeDelivered)' = ```
+			
+			VAR vTotalLinhas = COUNTROWS(Fact_OrdersDataset)
+			
+			VAR vSegundos = 
+			CALCULATE(
+			    AVERAGEX(
+			        Fact_OrdersDataset,
+			        SUM(Fact_OrdersDataset[TotalOrderTimeDelivered]) / vTotalLinhas
+			        
+			    )
+			)
+			
+			VAR vHoras = INT(vSegundos / (60 * 60))
+			VAR vMinutos = INT(MOD(vSegundos, 60 * 60) / 60)
+			
+			RETURN 
+			    FORMAT(vHoras, "0") & " horas, " &
+			    FORMAT(vMinutos, "0") & " minutos"
+			```
+		displayFolder: TotalOrderTimeDelivered
+		lineageTag: b9162ea7-e7c7-4b81-8228-9f144a2a6ced
+
+	measure '03 - Tempo Médio (TotalOrderTimeDelivered)' = ```
+			
+			
+			VAR vTotalLinhas = COUNTROWS(Fact_OrdersDataset)
+			
+			VAR vSegundos = 
+			CALCULATE(
+			    AVERAGEX(
+			        Fact_OrdersDataset,
+			        SUM(Fact_OrdersDataset[TotalOrderTimeDelivered]) / vTotalLinhas
+			        
+			    )
+			)
+			VAR vDias = INT(vSegundos / (24 * 60 * 60))
+			VAR vHoras = INT(MOD(vSegundos, 24 * 60 * 60) / (60 * 60))
+			VAR vMinutos = INT(MOD(MOD(vSegundos, 24 * 60 * 60), 60 * 60) / 60)
+			
+			RETURN 
+			
+			    FORMAT(vDias, "0") & " dia(s), " &
+			    FORMAT(vHoras, "0") & " horas, " &
+			    FORMAT(vMinutos, "0") & " minutos"
+			```
+		displayFolder: TotalOrderTimeDelivered
+		lineageTag: c676ce2f-b50a-4d0e-b102-b71871c1e00e
+
+	measure '03 - TotalPrice' =
+			
+			SUM(Fact_OrderItemsDataset[price])
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: fe2bd5b3-617d-46ab-83f4-d43dfcec4b94
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure '04 - TotalFreight' =
+			
+			SUM(Fact_OrderItemsDataset[freight_value])
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 5c1104ad-edbf-490e-bb69-139e2431a9b6
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure '05 - Total Payment Value' = SUM(Dim_OrderPaymentsDataset[payment_value])
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: b12eef24-352d-4219-beb8-6cf40987a3ce
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure '06 - TotalPriceFreight' =
+			
+			SUMX(
+			    Fact_OrderItemsDataset,
+			    Fact_OrderItemsDataset[price] + Fact_OrderItemsDataset[freight_value]
+			)
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 067727ba-542b-483a-bb81-632576ccdd63
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure '07 - Total Payment Valeu MoM' =
+			
+			CALCULATE(
+			    [05 - Total Payment Value],
+			    DATEADD(Dim_Calendar[Data], -1,MONTH
+			    )
+			)
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 011c7586-4c97-4bba-abc2-f8e88cf64ca2
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure '08 - Total Payment Value MoM(%)' =
+			
+			
+			DIVIDE(
+			    ([05 - Total Payment Value] - [07 - Total Payment Valeu MoM]),
+			    [07 - Total Payment Valeu MoM],
+			    0
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: d49f9cc4-4e18-46c3-894f-371464a67b0c
+
+	measure '09 - AVG Total Payment Value' = ```
+			
+			    AVERAGE(Dim_OrderPaymentsDataset[payment_value])
+			```
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: 92e4eeab-bf3f-4f60-85ac-612dbea0275a
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure '10 - Payment Min' =
+			
+			CALCULATE(
+			    MIN(Dim_OrderPaymentsDataset[payment_value]),
+			    Dim_OrderPaymentsDataset[payment_value] > 0
+			)
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 6f1b7146-389e-470b-bf17-24561b16ba58
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure '10 - Payment Max' =
+			
+			CALCULATE(
+			    MAX(Dim_OrderPaymentsDataset[payment_value]),
+			    Dim_OrderPaymentsDataset[payment_value] > 0
+			)
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: c792a254-d629-4416-83e9-ed34eec837ad
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure '02.1 - Total Customers Unique' = ```
+			
+			CALCULATE(
+			    COUNTROWS(DIM_CustomersDataSet),
+			    FILTER(
+			        DIM_CustomersDataSet,
+			        COUNTROWS(
+			            FILTER(DIM_CustomersDataSet, 
+			            DIM_CustomersDataSet[customer_unique_id] = EARLIER(DIM_CustomersDataSet[customer_unique_id]))
+			        ) = 1
+			    )
+			)
+			```
+		formatString: 0
+		lineageTag: 4c2cb606-63a8-4c6f-b8e8-4431cde0b0e0
+
+	measure '02.2 - Total Customers Repeat' = ```
+			
+			VAR vCustomersRepat = [02 - Total Customers] - [02.1 - Total Customers Unique]
+			
+			VAR vPercentageCustomersRepeat = 
+			DIVIDE(
+			    vCustomersRepat,
+			    [02 - Total Customers]
+			)
+			
+			RETURN
+			vPercentageCustomersRepeat
+			
+			```
+		formatString: #,0.00%;-#,0.00%;#,0.00%
+		lineageTag: 3e1eff0f-891a-4e48-b028-99a227bf99d9
+
+	partition Medidas = m
+		mode: import
+		source =
+				let
+				    Fonte = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#"Coluna 1" = _t]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(Fonte,{{"Coluna 1", type text}}),
+				    #"Colunas Removidas" = Table.RemoveColumns(#"Tipo Alterado",{"Coluna 1"})
+				in
+				    #"Colunas Removidas"
+
+	annotation PBI_ResultType = Table
+

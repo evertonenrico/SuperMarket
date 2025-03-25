@@ -1,4 +1,4 @@
-table Dim_OrderItemsDataset
+table Fact_OrderItemsDataset
 	lineageTag: e0a226a9-d1cf-409f-af8d-9976a9c0e774
 
 	column order_id
@@ -63,7 +63,20 @@ table Dim_OrderItemsDataset
 
 		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
 
-	partition Dim_OrderItemsDataset = m
+	column TotalFreightPrice = ```
+			
+			Fact_OrderItemsDataset[price] + Fact_OrderItemsDataset[freight_value]
+			
+			```
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 2aa7b4c9-1d6e-4f66-b9a4-aa511a69b379
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	partition Fact_OrderItemsDataset = m
 		mode: import
 		source =
 				let
@@ -75,6 +88,8 @@ table Dim_OrderItemsDataset
 				    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Valor Substituído1",{{"freight_value", Currency.Type}})
 				in
 				    #"Tipo Alterado1"
+
+	changedProperty = Name
 
 	annotation PBI_NavigationStepName = Navegação
 

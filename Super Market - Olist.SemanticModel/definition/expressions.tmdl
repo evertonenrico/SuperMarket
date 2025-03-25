@@ -1,0 +1,15 @@
+expression Dim_GeolocationDataset_old =
+		let
+		    Fonte = Csv.Document(File.Contents("G:\Meu Drive\Power BI Microsoft\ESTUDOS - PORTFOLIO\Super Market\SuperMarket\dataset\olist_geolocation_dataset.csv"),[Delimiter=",", Columns=5, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+		    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Fonte, [PromoteAllScalars=true]),
+		    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"geolocation_zip_code_prefix", Int64.Type}, {"geolocation_lat", Int64.Type}, {"geolocation_lng", Int64.Type}, {"geolocation_city", type text}, {"geolocation_state", type text}}),
+		    #"Colocar Cada Palavra Em Maiúscula" = Table.TransformColumns(#"Tipo Alterado",{{"geolocation_city", Text.Proper, type text}}),
+		    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Colocar Cada Palavra Em Maiúscula",{{"geolocation_zip_code_prefix", type text}})
+		in
+		    #"Tipo Alterado1"
+	lineageTag: 90536c31-ae71-4ebf-97e6-02dab4cc5c6f
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

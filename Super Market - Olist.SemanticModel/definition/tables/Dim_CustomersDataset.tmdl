@@ -33,24 +33,34 @@ table Dim_CustomersDataset
 
 		annotation SummarizationSetBy = Automatic
 
-	column customer_state
+	column state
 		dataType: string
 		lineageTag: d5ed4da5-5ecc-4c6c-b736-5d8e3de01912
 		summarizeBy: none
-		sourceColumn: customer_state
+		sourceColumn: state
 
 		annotation SummarizationSetBy = Automatic
 
 	partition Dim_CustomersDataset = m
 		mode: import
-		source =
+		source = ```
 				let
 				    Fonte = Csv.Document(File.Contents("G:\Meu Drive\Power BI Microsoft\ESTUDOS - PORTFOLIO\Super Market\SuperMarket\dataset\olist_customers_dataset.csv"),[Delimiter=",", Columns=5, Encoding=65001, QuoteStyle=QuoteStyle.None]),
 				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Fonte, [PromoteAllScalars=true]),
 				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"customer_id", type text}, {"customer_unique_id", type text}, {"customer_zip_code_prefix", type text}, {"customer_city", type text}, {"customer_state", type text}}),
-				    #"Colocar Cada Palavra Em Maiúscula" = Table.TransformColumns(#"Tipo Alterado",{{"customer_city", Text.Proper, type text}})
+				    #"Colocar Cada Palavra Em Maiúscula" = Table.TransformColumns(#"Tipo Alterado",{{"customer_city", Text.Proper, type text}}),
+				    ColunaVerificaZero = Table.TransformColumns(#"Colocar Cada Palavra Em Maiúscula", 
+				    {
+				        {"customer_zip_code_prefix", each if Text.Start (_,1) = "0" then
+				        Text.RemoveRange(_,0,1)else _ }
+				    }
+				    ),
+				    #"Valor Substituído" = Table.ReplaceValue(ColunaVerificaZero,"Parati","Paraty",Replacer.ReplaceText,{"customer_city"}),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Valor Substituído",{{"customer_state", "state"}})
 				in
-				    #"Colocar Cada Palavra Em Maiúscula"
+				    #"Colunas Renomeadas"
+				    //#"Colocar Cada Palavra Em Maiúscula"
+				```
 
 	annotation PBI_NavigationStepName = Navegação
 

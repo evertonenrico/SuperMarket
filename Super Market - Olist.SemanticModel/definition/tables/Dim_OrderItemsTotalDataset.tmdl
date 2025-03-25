@@ -1,0 +1,64 @@
+table Dim_OrderItemsTotalDataset
+	lineageTag: bafa843a-32ff-4f06-a546-50697502ca27
+
+	column order_id
+		lineageTag: 4a183193-0a72-4003-b4a5-56c57ea366bd
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Fact_OrderItemsDataset[order_id]
+
+		annotation SummarizationSetBy = Automatic
+
+	column TotalPrice
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 68791517-fbb2-4a63-8fe0-0f6a7ed5fd1d
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [TotalPrice]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column TotalFreight
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 884960e8-1892-4738-bb81-4aa7700b2831
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [TotalFreight]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column TotalFreightPrice
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 129b7b53-258b-46cd-965f-cfdff44370fa
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [TotalFreightPrice]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	partition Dim_OrderItemsTotalDataset = calculated
+		mode: import
+		source =
+				
+				ADDCOLUMNS(
+				    SUMMARIZE(
+				        Fact_OrderItemsDataset,
+				        Fact_OrderItemsDataset[order_id]
+				    ),
+				    "TotalPrice",
+				    CALCULATE(SUM(Fact_OrderItemsDataset[price])),
+				    "TotalFreight",
+				    CALCULATE(sum(Fact_OrderItemsDataset[freight_value])
+				    ),
+				    "TotalFreightPrice",
+				    CALCULATE((SUM(Fact_OrderItemsDataset[price])) + CALCULATE(sum(Fact_OrderItemsDataset[freight_value])))
+				)
+
+	annotation PBI_Id = af2bd7a30dcf4129b6953068beb74a37
+

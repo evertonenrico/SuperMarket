@@ -21,10 +21,10 @@ table Dim_OrderReviewsDataset
 		dataType: int64
 		formatString: 0
 		lineageTag: 0845d23f-8816-4723-a4c9-b254c55ba921
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: review_score
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column review_comment_title
 		dataType: string
@@ -44,12 +44,16 @@ table Dim_OrderReviewsDataset
 
 	column review_creation_date
 		dataType: dateTime
-		formatString: General Date
+		formatString: Short Date
 		lineageTag: 625ecb2c-31c7-435d-b989-f3ab9d0ad29e
 		summarizeBy: none
 		sourceColumn: review_creation_date
 
+		changedProperty = DataType
+
 		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
 
 	column review_answer_timestamp
 		dataType: dateTime

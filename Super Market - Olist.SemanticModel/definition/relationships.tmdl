@@ -1,24 +1,44 @@
-relationship AutoDetected_d8457280-7740-4278-ad50-1effaf498b7e
-	fromColumn: Dim_OrderItemsDataset.order_id
-	toColumn: Fact_OrdersDataset.order_id
-
 relationship AutoDetected_e9faf3eb-1121-44ba-81ea-594cc5e6210c
 	fromColumn: Dim_OrderReviewsDataset.order_id
 	toColumn: Fact_OrdersDataset.order_id
 
 relationship AutoDetected_6fa84eae-69c7-4621-8abf-96bc7cc99dd3
+	crossFilteringBehavior: bothDirections
+	securityFilteringBehavior: bothDirections
 	fromColumn: Dim_OrderPaymentsDataset.order_id
 	toColumn: Fact_OrdersDataset.order_id
 
 relationship AutoDetected_2dbf6e1e-a321-4418-8c91-727d1a00cabc
-	fromColumn: Dim_OrderItemsDataset.product_id
+	crossFilteringBehavior: bothDirections
+	securityFilteringBehavior: bothDirections
+	fromColumn: Fact_OrderItemsDataset.product_id
 	toColumn: Dim_ProductsDataset.product_id
 
 relationship AutoDetected_60e02f11-662d-44eb-99e1-3d9caa4b213b
-	fromColumn: Dim_OrderItemsDataset.seller_id
+	fromColumn: Fact_OrderItemsDataset.seller_id
 	toColumn: Dim_SellersDataset.seller_id
 
 relationship b4034ece-885a-ba12-71d3-171d8ace4de6
+	crossFilteringBehavior: bothDirections
 	fromColumn: Fact_OrdersDataset.customer_id
 	toColumn: Dim_CustomersDataset.customer_id
+
+relationship 82a63674-c623-7d18-45e1-f5cce7b1b962
+	crossFilteringBehavior: bothDirections
+	fromColumn: Fact_OrderItemsDataset.order_id
+	toColumn: Fact_OrdersDataset.order_id
+
+relationship d311d854-e69f-06ea-0d83-ac12c53573ff
+	fromColumn: Fact_OrdersDataset.Data
+	toColumn: Dim_Calendar.Data
+
+relationship 5b8c39e9-1a8c-493c-04c9-e42241631a10
+	fromColumn: Fact_OrderItemsDataset.order_id
+	toColumn: Dim_OrderItemsTotalDataset.order_id
+
+relationship 7bae5806-690d-3e04-9470-2d7ffa9d05e3
+	crossFilteringBehavior: bothDirections
+	securityFilteringBehavior: bothDirections
+	fromColumn: Dim_CustomersDataset.customer_city
+	toColumn: Dim_GeolocationDataset.customer_city
 

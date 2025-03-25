@@ -1,45 +1,45 @@
 table Dim_GeolocationDataset
-	lineageTag: 631f4d5e-af30-4cd6-8f57-fce71c232020
+	lineageTag: b33ed3d0-a9fa-42fc-9a4d-804b7fa1f772
 
-	column geolocation_zip_code_prefix
+	column zipcode_prefix
 		dataType: string
-		lineageTag: 027e71af-28a2-4800-b3e5-590a6fb08335
+		lineageTag: d513f73a-0ad3-4485-9109-9ee70586e3db
 		summarizeBy: none
-		sourceColumn: geolocation_zip_code_prefix
+		sourceColumn: zipcode_prefix
 
 		annotation SummarizationSetBy = Automatic
 
-	column geolocation_lat
-		dataType: int64
-		formatString: 0
-		lineageTag: df3dc27b-5b9f-4e54-abdb-2133f5750e48
-		summarizeBy: none
-		sourceColumn: geolocation_lat
-
-		annotation SummarizationSetBy = User
-
-	column geolocation_lng
-		dataType: int64
-		formatString: 0
-		lineageTag: 46bcdb09-225a-47e1-8364-01b0e61b1f84
-		summarizeBy: none
-		sourceColumn: geolocation_lng
-
-		annotation SummarizationSetBy = User
-
-	column geolocation_city
+	column customer_city
 		dataType: string
-		lineageTag: 26d08e42-7ea8-49c8-950e-a0b071815adf
+		lineageTag: 547932e3-b513-46a1-aad6-9415fd3f995e
+		dataCategory: City
 		summarizeBy: none
-		sourceColumn: geolocation_city
+		sourceColumn: customer_city
 
 		annotation SummarizationSetBy = Automatic
 
-	column geolocation_state
+	column state
 		dataType: string
-		lineageTag: b46b56f9-9dd5-465a-bcf5-f6323e6f71cf
+		lineageTag: 12279605-000b-4d5b-a343-5749fa1288b5
 		summarizeBy: none
-		sourceColumn: geolocation_state
+		sourceColumn: state
+
+		annotation SummarizationSetBy = Automatic
+
+	column state_name
+		dataType: string
+		lineageTag: 57149369-984f-4527-a9c8-75507357e306
+		dataCategory: StateOrProvince
+		summarizeBy: none
+		sourceColumn: state_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column region
+		dataType: string
+		lineageTag: 75f1e291-d3bc-4838-ad21-009bf0d03dab
+		summarizeBy: none
+		sourceColumn: region
 
 		annotation SummarizationSetBy = Automatic
 
@@ -47,13 +47,47 @@ table Dim_GeolocationDataset
 		mode: import
 		source =
 				let
-				    Fonte = Csv.Document(File.Contents("G:\Meu Drive\Power BI Microsoft\ESTUDOS - PORTFOLIO\Super Market\SuperMarket\dataset\olist_geolocation_dataset.csv"),[Delimiter=",", Columns=5, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				
+				    Fonte = Csv.Document(File.Contents("G:\Meu Drive\Power BI Microsoft\ESTUDOS - PORTFOLIO\Super Market\SuperMarket\dataset\new_olist_geolocations.csv"),[Delimiter=",", Columns=11, Encoding=65001, QuoteStyle=QuoteStyle.None]),
 				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Fonte, [PromoteAllScalars=true]),
-				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"geolocation_zip_code_prefix", Int64.Type}, {"geolocation_lat", Int64.Type}, {"geolocation_lng", Int64.Type}, {"geolocation_city", type text}, {"geolocation_state", type text}}),
-				    #"Colocar Cada Palavra Em Maiúscula" = Table.TransformColumns(#"Tipo Alterado",{{"geolocation_city", Text.Proper, type text}}),
-				    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Colocar Cada Palavra Em Maiúscula",{{"geolocation_zip_code_prefix", type text}})
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"zipcode_prefix", type text}, {"zipcode_lat", Int64.Type}, {"zipcode_lon", Int64.Type}, {"location", type text}, {"state", type text}, {"state_name", type text}, {"region", type text}, {"state_lat", Int64.Type}, {"state_lon", Int64.Type}, {"loc_lat", Int64.Type}, {"loc_lon", Int64.Type}}),
+				    #"Duplicatas Removidas" = Table.Distinct(#"Tipo Alterado", {"location"}),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Duplicatas Removidas",{{"location", "customer_city"}}),
+				    #"Valor Substituído" = Table.ReplaceValue(#"Colunas Renomeadas","Parati","Paraty",Replacer.ReplaceText,{"customer_city"}),
+				    #"Consulta Acrescentada" = Table.Combine({#"Valor Substituído", Dim_CustomersDataset}),
+				    #"Duplicatas Removidas1" = Table.Distinct(#"Consulta Acrescentada", {"customer_city"}),
+				    #"Colunas Removidas" = Table.RemoveColumns(#"Duplicatas Removidas1",{"customer_id", "customer_unique_id", "customer_zip_code_prefix", "zipcode_lat", "zipcode_lon", "state_lat", "state_lon", "loc_lat", "loc_lon"}),
+				    NameState = Table.FromRecords(
+				    Table.TransformRows(#"Colunas Removidas", (row) =>
+				        Record.TransformFields(row,
+				            {
+				                {"state_name", (state_name) =>
+				                    if row[state] = "BA" then "Bahia"
+				                    else if  row[state] = "MG" then "Minhas Gerais"
+				                        else if row[state] = "SP" then "Sao Paulo"
+				                            else if row[state] = "RJ" then "Rio de Janeiro"
+				                                else if row[state] = "MA" then "Maranhao"
+				                                    else if row[state] = "PA" then "Para"
+				                                        else if row[state] = "PR" then "Parana"
+				                                            else if row[state] = "GO" then "Goias"
+				                                                else if row[state] = "CE" then "Ceara"
+				                                                    else if row[state] = "RS" then "Rio Grande do Sul"
+				                                                        else if row[state] = "MS" then "Mato Grosso do Sul"
+				                                                            else if row[state] = "PB" then "Paraiba"
+				                                                                else if row[state] = "SC" then "Santa Catarina"
+				                                                                    else if row[state] = "SE" then "Sergipe"
+				                                                                        else if row[state] = "RN" then "Rio Grande do Norte"
+				                                                                            else if row[state] = "PE" then "Pernambuco"
+				                                                                                else if row[state] = "ES" then "Espirito Santo"
+				
+				                        else state_name
+				                }
+				            }
+				        )
+				    )
+				)
 				in
-				    #"Tipo Alterado1"
+				    NameState
 
 	annotation PBI_NavigationStepName = Navegação
 
