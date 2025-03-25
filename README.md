@@ -24,9 +24,13 @@ Todos os dados encontram-se em: https://www.kaggle.com/datasets/olistbr/brazilia
 
 As informações de metadados encontram-se neste [LINK](/Metadados.txt)
 
-## Schema
+## Data Schema
 
 Abaixo o modelo Schema dos dados levantados:
-![ETL](images/data_schema.png)
+![Schema](images/data_schema.png)
+
+## Relacionamento entre tabelas no Power BI 
+![Schema](images/relacionamento.png)
+
 
 
