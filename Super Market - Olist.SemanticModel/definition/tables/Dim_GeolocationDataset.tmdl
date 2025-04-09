@@ -45,7 +45,7 @@ table Dim_GeolocationDataset
 
 	partition Dim_GeolocationDataset = m
 		mode: import
-		source =
+		source = ```
 				let
 				
 				    Fonte = Csv.Document(File.Contents("G:\Meu Drive\Power BI Microsoft\ESTUDOS - PORTFOLIO\Super Market\SuperMarket\dataset\new_olist_geolocations.csv"),[Delimiter=",", Columns=11, Encoding=65001, QuoteStyle=QuoteStyle.None]),
@@ -85,9 +85,49 @@ table Dim_GeolocationDataset
 				            }
 				        )
 				    )
-				)
+				),
+				    NameRegion = Table.FromRecords(
+				    Table.TransformRows(NameState, (row) =>
+				        Record.TransformFields(row,
+				            {
+				                {"region", (region) =>
+				                    if row[state] = "ES" then "Southeast"
+				                    else if  row[state] = "MG" then "Southeast"
+				                        else if row[state] = "SP" then "Southeast"
+				                            else if row[state] = "RJ" then "Southeast"
+				                                else if row[state] = "DF" then "Central-West"
+				                                    else if row[state] = "GO" then "Central-West"
+				                                        else if row[state] = "MT" then "Central-West"
+				                                            else if row[state] = "MS" then "Central-West"
+				                                                else if row[state] = "AC" then "North" 
+				                                                    else if row[state] = "AP" then "North"
+				                                                        else if row[state] = "AM" then "North"
+				                                                            else if row[state] = "PA" then "North"  
+				                                                                else if row[state] = "RO" then "North" 
+				                                                                    else if row[state] = "RR" then "North"
+				                                                                        else if row[state] = "TO" then "North"
+				                                                                            else if row[state] = "PR" then "South"
+				                                                                                else if row[state] = "SC" then "South"
+				                                                                                    else if row[state] = "RS" then "South"
+				                                                                                        else if row[state] = "AL" then "Northeast"
+				                                                                                            else if row[state] = "BA" then "Northeast"
+				                                                                                                else if row[state] = "CE" then "Northeast"
+				                                                                                                    else if row[state] = "MA" then "Northeast"
+				                                                                                                        else if row[state] = "PB" then "Northeast"
+				                                                                                                            else if row[state] = "PE" then "Northeast"
+				                                                                                                                else if row[state] = "PI" then "Northeast"
+				                                                                                                                    else if row[state] = "RN" then "Northeast"
+				                                                                                                                        else if row[state] = "SE" then "Northeast"
+				                              else region
+				                }
+				            }
+				        )
+				    )
+				),
+				    #"Linhas Filtradas" = Table.SelectRows(NameRegion, each true)
 				in
-				    NameState
+				    #"Linhas Filtradas"
+				```
 
 	annotation PBI_NavigationStepName = Navegação
 

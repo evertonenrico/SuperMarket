@@ -92,9 +92,39 @@ table Fact_OrdersDataset
 
 		annotation UnderlyingDateTimeDataType = Date
 
+	column purchase_timestamp
+		dataType: int64
+		formatString: #,0
+		lineageTag: a13a4674-a77f-4a91-96b3-01a5b3ff89c1
+		summarizeBy: count
+		sourceColumn: purchase_timestamp
+
+		annotation SummarizationSetBy = User
+
+	column RangeHoraCompras
+		dataType: string
+		lineageTag: 6b5f90ee-9bc9-42f4-9eb6-8c265267b148
+		summarizeBy: none
+		sourceColumn: RangeHoraCompras
+		sortByColumn: SeqHRange
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column SeqHRange
+		dataType: double
+		lineageTag: 44800797-7dc5-427a-9e1b-af58def81272
+		summarizeBy: sum
+		sourceColumn: SeqHRange
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	partition Fact_OrdersDataset = m
 		mode: import
-		source =
+		source = ```
 				let
 				    Fonte = Csv.Document(File.Contents("G:\Meu Drive\Power BI Microsoft\ESTUDOS - PORTFOLIO\Super Market\SuperMarket\dataset\olist_orders_dataset.csv"),[Delimiter=",", Columns=8, Encoding=65001, QuoteStyle=QuoteStyle.None]),
 				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Fonte, [PromoteAllScalars=true]),
@@ -103,9 +133,29 @@ table Fact_OrdersDataset
 				    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Personalização Adicionada",{{"TotalTime", type duration}}),
 				    #"Total de Segundos Calculados" = Table.TransformColumns(#"Tipo Alterado1",{{"TotalTime", Duration.TotalSeconds, type number}}),
 				    #"Colunas Renomeadas" = Table.RenameColumns(#"Total de Segundos Calculados",{{"TotalTime", "TotalOrderTimeDelivered"}}),
-				    #"Data Inserida" = Table.AddColumn(#"Colunas Renomeadas", "Data", each DateTime.Date([order_purchase_timestamp]), type date)
+				    #"Data Inserida" = Table.AddColumn(#"Colunas Renomeadas", "Data", each DateTime.Date([order_purchase_timestamp]), type date),
+				    #"Personalização Adicionada1" = Table.AddColumn(#"Data Inserida", "purchase_timestamp", each [order_purchase_timestamp]),
+				    #"Tipo Alterado2" = Table.TransformColumnTypes(#"Personalização Adicionada1",{{"purchase_timestamp", type time}}),
+				    #"Hora Extraída" = Table.TransformColumns(#"Tipo Alterado2",{{"purchase_timestamp", Time.Hour, Int64.Type}}),
+				    RangeHoraComras = Table.AddColumn 
+				        (#"Hora Extraída", "RangeHoraCompras", 
+				                each  if  [purchase_timestamp] >= 0 and  [purchase_timestamp] <= 5 then "00h - 05h" 
+				                    else if [purchase_timestamp] >= 6 and [purchase_timestamp] <= 12 then "06h - 12h"
+				                        else if [purchase_timestamp] >= 13 and [purchase_timestamp] <= 18 then "13h - 18h"
+				                            else "19h - 23h"   
+				        ),
+				    SequenciaRange = Table.AddColumn(RangeHoraComras,"SeqHRange", 
+				                each 
+				                    if [RangeHoraCompras] = "00h - 05h" then 1
+				                        else if [RangeHoraCompras] = "06h - 12h" then 2
+				                            else if [RangeHoraCompras] = "13h - 18h" then 3
+				                                else 4, type number
+				    
+				    
+				            )
 				in
-				    #"Data Inserida"
+				    SequenciaRange
+				```
 
 	annotation PBI_NavigationStepName = Navegação
 

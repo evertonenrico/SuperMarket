@@ -13,19 +13,22 @@ table Medidas
 			vCustomersUnique
 			```
 		formatString: 0
+		displayFolder: Geral
 		lineageTag: 7ccdf03c-72e9-4a6c-ad37-8f29f5521d6b
 
 	measure '01 - TotalOrders' = COUNTROWS(Fact_OrdersDataset)
 		formatString: #,0
+		displayFolder: Geral
 		lineageTag: 1a467bc5-c22a-4184-8275-80a06417a9b5
 
 	measure '02 - Total Customers' = DISTINCTCOUNT(Dim_CustomersDataset[customer_unique_id])
 		formatString: #,0
+		displayFolder: Geral
 		lineageTag: 5a329cfb-60ab-440c-b96f-a487f3febebf
 
 	measure '01 - Tempo Total DD:HH:MM(TotalOrderTimeDelivered)' = ```
 			
-			VAR vSegundos = SUM(Fact_OrdersDataset[TotalOrderTimeDelivered])
+			VAR vSegundos = CALCULATE(SUM(Fact_OrdersDataset[TotalOrderTimeDelivered]),Fact_OrdersDataset[order_status] = "delivered")
 			
 			VAR vDias = INT(vSegundos / (24 * 60 * 60))
 			VAR vHoras = INT(MOD(vSegundos, 24 * 60 * 60) / (60 * 60))
@@ -41,7 +44,7 @@ table Medidas
 
 	measure '02 - Tempo Total Médio HH:MM (TotalOrderTimeDelivered)' = ```
 			
-			VAR vTotalLinhas = COUNTROWS(Fact_OrdersDataset)
+			VAR vTotalLinhas = CALCULATE(COUNTROWS(Fact_OrdersDataset),Fact_OrdersDataset[order_status] = "delivered")
 			
 			VAR vSegundos = 
 			CALCULATE(
@@ -65,7 +68,7 @@ table Medidas
 	measure '03 - Tempo Médio (TotalOrderTimeDelivered)' = ```
 			
 			
-			VAR vTotalLinhas = COUNTROWS(Fact_OrdersDataset)
+			VAR vTotalLinhas = CALCULATE(COUNTROWS(Fact_OrdersDataset),Fact_OrdersDataset[order_status] = "delivered")
 			
 			VAR vSegundos = 
 			CALCULATE(
@@ -92,6 +95,7 @@ table Medidas
 			
 			SUM(Fact_OrderItemsDataset[price])
 		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		displayFolder: Geral
 		lineageTag: fe2bd5b3-617d-46ab-83f4-d43dfcec4b94
 
 		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
@@ -100,12 +104,14 @@ table Medidas
 			
 			SUM(Fact_OrderItemsDataset[freight_value])
 		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		displayFolder: Geral
 		lineageTag: 5c1104ad-edbf-490e-bb69-139e2431a9b6
 
 		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
 
 	measure '05 - Total Payment Value' = SUM(Dim_OrderPaymentsDataset[payment_value])
 		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		displayFolder: Geral
 		lineageTag: b12eef24-352d-4219-beb8-6cf40987a3ce
 
 		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
@@ -117,6 +123,7 @@ table Medidas
 			    Fact_OrderItemsDataset[price] + Fact_OrderItemsDataset[freight_value]
 			)
 		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		displayFolder: Geral
 		lineageTag: 067727ba-542b-483a-bb81-632576ccdd63
 
 		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
@@ -129,6 +136,7 @@ table Medidas
 			    )
 			)
 		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		displayFolder: Geral
 		lineageTag: 011c7586-4c97-4bba-abc2-f8e88cf64ca2
 
 		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
@@ -142,6 +150,7 @@ table Medidas
 			    0
 			)
 		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Geral
 		lineageTag: d49f9cc4-4e18-46c3-894f-371464a67b0c
 
 	measure '09 - AVG Total Payment Value' = ```
@@ -149,6 +158,7 @@ table Medidas
 			    AVERAGE(Dim_OrderPaymentsDataset[payment_value])
 			```
 		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: Geral
 		lineageTag: 92e4eeab-bf3f-4f60-85ac-612dbea0275a
 
 		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
@@ -160,6 +170,7 @@ table Medidas
 			    Dim_OrderPaymentsDataset[payment_value] > 0
 			)
 		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		displayFolder: Geral
 		lineageTag: 6f1b7146-389e-470b-bf17-24561b16ba58
 
 		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
@@ -171,6 +182,7 @@ table Medidas
 			    Dim_OrderPaymentsDataset[payment_value] > 0
 			)
 		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		displayFolder: Geral
 		lineageTag: c792a254-d629-4416-83e9-ed34eec837ad
 
 		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
@@ -189,6 +201,7 @@ table Medidas
 			)
 			```
 		formatString: 0
+		displayFolder: Geral
 		lineageTag: 4c2cb606-63a8-4c6f-b8e8-4431cde0b0e0
 
 	measure '02.2 - Total Customers Repeat' = ```
@@ -206,7 +219,84 @@ table Medidas
 			
 			```
 		formatString: #,0.00%;-#,0.00%;#,0.00%
+		displayFolder: Geral
 		lineageTag: 3e1eff0f-891a-4e48-b028-99a227bf99d9
+
+	measure '11 - Total Seller' = DISTINCTCOUNT(Fact_OrderItemsDataset[seller_id])
+		formatString: #,0
+		displayFolder: Geral
+		lineageTag: 2c28577b-852f-4fb4-a2fb-1491b2cbb9df
+
+	measure '12 - Max e Min Total Payment' = ```
+			
+			
+			VAR _PaymentMax = 
+			MAXX(
+			    ALLSELECTED(Dim_Calendar[MesNomeAbreviado],Dim_Calendar[MesNumero]),
+			    [05 - Total Payment Value]
+			)
+			
+			VAR _PaymentMin = 
+			MINX(
+			    ALLSELECTED(Dim_Calendar[MesNomeAbreviado],Dim_Calendar[MesNumero]),
+			    [05 - Total Payment Value]
+			)
+			RETURN
+			
+			
+			SWITCH(
+			    TRUE(),
+			    [05 - Total Payment Value] = _PaymentMax,1,
+			    [05 - Total Payment Value] = _PaymentMin,2
+			)
+			```
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		displayFolder: Geral
+		lineageTag: e2cfcb4b-58ac-4961-905d-e3f1beb73fa8
+
+	measure '05.1 - Total Payment' =
+			
+			DISTINCTCOUNT(
+			    Dim_OrderPaymentsDataset[order_id]
+			)
+		formatString: #,0
+		displayFolder: Geral
+		lineageTag: 748cf8b6-3f69-48d3-95e2-db6637e6273b
+
+	measure '04 - Tempo Médio Dias (TotalOrderTimeDelivered)' = ```
+			
+			
+			VAR vTotalLinhas = CALCULATE(COUNTROWS(Fact_OrdersDataset),Fact_OrdersDataset[order_status] = "delivered")
+			
+			VAR vSegundos = 
+			CALCULATE(
+			    AVERAGEX(
+			        Fact_OrdersDataset,
+			        SUM(Fact_OrdersDataset[TotalOrderTimeDelivered]) / vTotalLinhas
+			        
+			    )
+			)
+			VAR vDias = INT(vSegundos / (24 * 60 * 60))
+			VAR vHoras = INT(MOD(vSegundos, 24 * 60 * 60) / (60 * 60))
+			VAR vMinutos = INT(MOD(MOD(vSegundos, 24 * 60 * 60), 60 * 60) / 60)
+			
+			RETURN 
+			
+			    FORMAT(vDias, "0") & "d:" &
+			    FORMAT(vHoras, "0") & "hs"
+			```
+		displayFolder: TotalOrderTimeDelivered
+		lineageTag: 06c486a6-845e-43c1-b395-1a32e3bc98e0
+
+	measure '01.1 - Total Orders Delivered' =
+			
+			CALCULATE(
+			    [01 - TotalOrders],
+			    Fact_OrdersDataset[order_status] = "delivered"
+			)
+		formatString: #,0
+		displayFolder: Geral
+		lineageTag: d7d4c7b0-ea69-4d16-8f5c-0c193c8f4113
 
 	partition Medidas = m
 		mode: import

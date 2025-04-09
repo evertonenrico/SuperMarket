@@ -3962,7 +3962,7 @@ cultureInfo pt-BR
 			          }
 			        },
 			        {
-			          "Tipo pagamento": {
+			          "Tipo Pagamento": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -10853,10 +10853,19 @@ cultureInfo pt-BR
 			          "ConceptualProperty": "02.2 - Total Customers Repeat"
 			        }
 			      },
+			      "State": "Generated"
+			    },
+			    "dim_calendar.diasemananome": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Dim_Calendar",
+			          "ConceptualProperty": "DiaSemanaNome"
+			        }
+			      },
 			      "State": "Generated",
 			      "Terms": [
 			        {
-			          "Retenção": {
+			          "Dia da Semana": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",

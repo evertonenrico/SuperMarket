@@ -1166,6 +1166,26 @@ table Dim_Calendar
 
 		annotation SummarizationSetBy = Automatic
 
+	column DiaSemanaNome = ```
+			SWITCH(WEEKDAY(Dim_Calendar[Data], 2), 
+			    1, "Seg", 
+			    2, "Ter", 
+			    3, "Qua", 
+			    4, "Qui", 
+			    5, "Sex", 
+			    6, "Sáb", 
+			    7, "Dom"
+			)
+			```
+		displayFolder: Semana
+		lineageTag: b2523879-4523-410a-a962-f0ad9777cf23
+		summarizeBy: none
+		sortByColumn: DiaDaSemanaNumero
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
 	partition Dim_Calendar = m
 		mode: import
 		source = ```
