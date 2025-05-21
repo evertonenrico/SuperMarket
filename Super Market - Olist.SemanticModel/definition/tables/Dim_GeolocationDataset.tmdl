@@ -38,6 +38,7 @@ table Dim_GeolocationDataset
 	column region
 		dataType: string
 		lineageTag: 75f1e291-d3bc-4838-ad21-009bf0d03dab
+		dataCategory: Place
 		summarizeBy: none
 		sourceColumn: region
 

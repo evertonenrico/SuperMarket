@@ -4,8 +4,8 @@
     {
       "ordinal": 0,
       "scrollPosition": {
-        "x": 758.16573159765016,
-        "y": 372.69363760904332
+        "x": 0,
+        "y": 275.71428571428572
       },
       "nodes": [
         {
@@ -16,16 +16,15 @@
           "nodeIndex": "Dim_CustomersDataset",
           "nodeLineageTag": "6441a8fd-acb8-4122-98fb-fff2d9f08485",
           "size": {
-            "height": 128,
+            "height": 299.76190476190482,
             "width": 254
           },
-          "zIndex": 9,
-          "expandedHeight": 299.76190476190482
+          "zIndex": 9
         },
         {
           "location": {
-            "x": 352.60135133303811,
-            "y": 736.62220903761477
+            "x": 273.79182752351426,
+            "y": 913.0507804661861
           },
           "nodeIndex": "Dim_GeolocationDataset",
           "nodeLineageTag": "b33ed3d0-a9fa-42fc-9a4d-804b7fa1f772",
@@ -37,8 +36,8 @@
         },
         {
           "location": {
-            "x": 777.27880392773693,
-            "y": 0
+            "x": 757.27880392773693,
+            "y": 188.33333333333334
           },
           "nodeIndex": "Dim_OrderPaymentsDataset",
           "nodeLineageTag": "440641ef-ed25-45f5-8758-7841dfe1d972",
@@ -51,17 +50,16 @@
         },
         {
           "location": {
-            "x": 412.2707529049095,
-            "y": 520.02811273441876
+            "x": 256.55646719062378,
+            "y": 474.31382702013303
           },
           "nodeIndex": "Dim_OrderReviewsDataset",
           "nodeLineageTag": "f7c1fb61-154f-4549-bc66-a93732e75803",
           "size": {
-            "height": 104,
-            "width": 234
+            "height": 343,
+            "width": 284
           },
-          "zIndex": 5,
-          "expandedHeight": 343
+          "zIndex": 5
         },
         {
           "location": {
@@ -79,16 +77,17 @@
         },
         {
           "location": {
-            "x": 1477.1904761904764,
-            "y": 878.54434627961734
+            "x": 1435.5238095238099,
+            "y": 853.54434627961734
           },
           "nodeIndex": "Dim_SellersDataset",
           "nodeLineageTag": "b52a5809-29b7-4ac3-8575-264fff120f56",
           "size": {
-            "height": 248.85714285714283,
+            "height": 104,
             "width": 234
           },
-          "zIndex": 7
+          "zIndex": 7,
+          "expandedHeight": 248.85714285714283
         },
         {
           "location": {
@@ -118,8 +117,8 @@
         },
         {
           "location": {
-            "x": 1402.1251608568471,
-            "y": 430.93663142190189
+            "x": 1400.4584941901803,
+            "y": 524.26996475523515
           },
           "nodeIndex": "Dim_OrderItemsTotalDataset",
           "nodeLineageTag": "bafa843a-32ff-4f06-a546-50697502ca27",
@@ -132,8 +131,8 @@
         },
         {
           "location": {
-            "x": 404.31563704732366,
-            "y": 0
+            "x": 409.31563704732366,
+            "y": 315
           },
           "nodeIndex": "Dim_Calendar",
           "nodeLineageTag": "4a691040-2951-4c74-8a73-6d041cf58533",

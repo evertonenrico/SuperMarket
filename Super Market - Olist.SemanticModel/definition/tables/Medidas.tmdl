@@ -298,6 +298,14 @@ table Medidas
 		displayFolder: Geral
 		lineageTag: d7d4c7b0-ea69-4d16-8f5c-0c193c8f4113
 
+	measure '13 - AVG Rating' =
+			
+			AVERAGE(Dim_OrderReviewsDataset[review_score])
+		displayFolder: Geral
+		lineageTag: 23889cca-a333-4071-95a6-da03e7cf2e71
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	partition Medidas = m
 		mode: import
 		source =
