@@ -113,5 +113,8 @@ Recomenda-se atenção especial à otimização logística, principalmente nas r
 
 Estes insights são fundamentais para equipes de marketing, logística e gestão de produtos, possibilitando decisões baseadas em dados que podem melhorar significativamente a experiência do cliente e, consequentemente, o desempenho geral do negócio.
 
+## Power BI
+
+Painel: https://app.powerbi.com/view?r=eyJrIjoiOWRjMDFjNDAtNmNlOC00OTg1LTg1NGItZDU5NmM3MzNlZWFjIiwidCI6ImVhZWZiZmY5LWFmZmMtNDgwNS1hZTdkLTM4MTUxMWVmOTA3MCJ9
 
 
